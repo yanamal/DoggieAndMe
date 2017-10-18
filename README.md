@@ -9,10 +9,11 @@ Current state - Skeleton functionality:
   - There is also a small but functional custom DoggieAndMe API: 
     - ```feed()```<sup>1</sup>
     - ```vibrate()```
+    - ```setSize(newsise)``` - set the turtle's size (in multiples of canonical turtle size). jquery-turtle has a built-in ```grow``` function, but it is relative to current size, and thus not suitable for the current difficulty implementation.
     - ```onRoundStart(callback)``` - set callback for what to do when a round of the game starts (draw things, move turtle, etc.)
     - ```endRound()``` - end current round of the game without feeding (note: ```feed()``` also implicitly ends the round)
-    - ```var x = new DifficultyPicker(easiest, hardest)``` - instantiate a new Difficulty picker: it uses light ML to adjust the particular numerical value based on how the dog did in the previous round.
-      - then use ```x.pick()``` to pick a number, typically within the ```onRoundStart``` callback. Note: this only picks a new number once each round; subsequent calls within the same round return the same number.
+    - ```var x = new DifficultyPicker(easiest, hardest)``` - instantiate a new Difficulty picker: it uses light ML to adjust the particular numerical value based on how the dog did in the previous round: it starts with the ```easiest``` value, gets a baseline for how long it takes the dog to complete each round, then adjust the number between ```easiest``` and ```hardest``` to try and keep the round duration near the baseline continuously.
+      - use ```x.pick()``` to actually pick a number, typically within the ```onRoundStart``` callback. Note: this only picks a new number once each round; subsequent calls within the same round return the same number.
 - The webview is able to communicate with the app itself, and send and request information.
 - the app cannot yet connect to or trigger a feeder - I will have to eject it from Create React Native and start using 'real' React Native before it can do that.
 - Other things that require 'real' React Native:
