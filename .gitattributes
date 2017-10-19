@@ -1,2 +1,3 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+webviewContent/* linguist-vendored # Not all vendored, but a large part of it is copy-pastes of libraries; so I don't want it to affect "language" calculation.
