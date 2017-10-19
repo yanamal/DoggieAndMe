@@ -5,10 +5,12 @@ import { StackNavigator } from 'react-navigation';
 
 import HomeScreen from './screens/homeScreen'
 import GameScreen from './screens/gameScreen'
+import GameSelectScreen from './screens/gameSelectScreen'
 
 const DogApp = StackNavigator({
   Home: { screen: HomeScreen },
-  Game: { screen: GameScreen }
+  Game: { screen: GameScreen },
+  GameSelect: { screen: GameSelectScreen }
 });
 
 export default class App extends React.Component {

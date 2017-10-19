@@ -5,34 +5,6 @@ import { View, WebView, Vibration } from 'react-native';
 
 import { styles } from './../styles';
 
-// test starter programs to have in the app
-let testPrograms = {
-  screentap: 'click -> feed()',
-  turtletap: `
-  st()
-  setSize(20)
-  turtle.click -> 
-    feed()
-    moveto random position
-  `,
-  turtletap2: `
-  st()
-  setSize(20)
-  turtle.click -> 
-    feed()
-  onRoundStart ->
-    moveto random position
-  `,
-  turtletap3: `
-  st()
-  sizePicker = new DifficultyPicker(20,1);
-  turtle.click -> 
-    feed()
-  onRoundStart ->
-    setSize(sizePicker.pick());
-    moveto random position
-  `
-};
 
 export default class GameScreen extends React.Component {
   static navigationOptions = {
@@ -54,14 +26,16 @@ export default class GameScreen extends React.Component {
 
   // note arrow function format, to preserve 'this' reference when it's passed in as a callback.
   onWebViewLoad = () => {
+    const { params } = this.props.navigation.state;
+
     this.webViewRef.postMessage(JSON.stringify({
       type:'bridgeLoaded'
     }));
     this.webViewRef.postMessage(JSON.stringify({
       type:'setProgram',
       payload: {
-        code: testPrograms.turtletap3,
-        programType: 'CoffeeScript'
+        code: params.code,
+        programType: 'CoffeeScript' // TODO: allow either
       }
     }));
   }

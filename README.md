@@ -21,6 +21,7 @@ Current state - Skeleton functionality:
   - QR reader (to easily load new programs into memory, when that is useful)
   - (probably) using other device sensors, e.g. sound, accelerometer.
   - locking the device orientation so that it doesn't change during the game
+  - drawing graphs/SVG graphics (e.g. graph of difficulty over time in a game session)
 
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
