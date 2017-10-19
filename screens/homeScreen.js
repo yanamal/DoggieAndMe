@@ -9,8 +9,6 @@ export default class HomeScreen extends React.Component {
   };
   render() {
     // Test - set a 'custom' game in asyncStorage
-
-    console.log('render home');
     AsyncStorage.setItem("customGame", `
     st()
     setSize(20)

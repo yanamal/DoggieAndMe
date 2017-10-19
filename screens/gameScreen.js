@@ -14,7 +14,6 @@ export default class GameScreen extends React.Component {
   // postMessage setup
 
   onWebViewMessage = (event) => {
-    // console.log(event.nativeEvent.data);
     message = JSON.parse(event.nativeEvent.data);
     if(message && message.type && (message.type in this.apiFunctions)) {
       this.apiFunctions[message.type](message.payload);
