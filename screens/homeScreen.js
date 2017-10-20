@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { Button, AsyncStorage } from 'react-native';
+import { View, Button, 
+  AsyncStorage, } from 'react-native';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -19,9 +20,15 @@ export default class HomeScreen extends React.Component {
     `);
 
     const { navigate } = this.props.navigation;
-    return <Button
-      title='Start a doggie game'
-      onPress={() => navigate('GameSelect')}
-    />;
+    return <View>
+      <Button
+        title='Connect a treat dispenser'
+        onPress={() => navigate('Connect')}
+      />
+      <Button
+        title='Start a doggie game'
+        onPress={() => navigate('GameSelect')}
+      />
+    </View>;
   }
 }
