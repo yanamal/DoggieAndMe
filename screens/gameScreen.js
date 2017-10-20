@@ -74,7 +74,7 @@ export default class GameScreen extends React.Component {
     const webviewContent = require('./../webviewContent/index.html')
     return (
       <View style={styles.fullscreen}
-       {...this.gestureResponder}>
+       {...this.gestureResponder}/*TODO: this makes webview touches unreliable on android.*/>
         <WebView
           onLoad={this.onWebViewLoad}
           ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper
