@@ -5,11 +5,41 @@ import { View, WebView, Vibration } from 'react-native';
 
 import { styles } from './../styles';
 
+import { createResponder } from 'react-native-gesture-responder';
+
 
 export default class GameScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  // set up gesture detection (mostly boilerplate, except the pinch logic:
+  componentWillMount() {
+    const { navigate } = this.props.navigation;    
+    this.gestureResponder = createResponder({
+      onStartShouldSetResponder: (evt, gestureState) => true,
+      onStartShouldSetResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetResponder: (evt, gestureState) => true,
+      onMoveShouldSetResponderCapture: (evt, gestureState) => true,
+      onResponderGrant: (evt, gestureState) => {},
+      onResponderMove: (evt, gestureState) => {
+      },
+      onResponderTerminationRequest: (evt, gestureState) => true,
+      onResponderRelease: (evt, gestureState) => {
+        // custom gesture response - if pinched (within some constraints), navigate back
+        // TODO: pinch threshold? but then need to track starting pinch state.
+        if (gestureState.pinch && gestureState.previousPinch && gestureState.pinch < gestureState.previousPinch ) {
+          this.props.navigation.goBack();
+        }
+      },
+      onResponderTerminate: (evt, gestureState) => {},
+      
+      onResponderSingleTapConfirmed: (evt, gestureState) => {},
+      
+      moveThreshold: 2,
+      debug: false
+    });
+  }
 
   // postMessage setup
 
@@ -43,7 +73,8 @@ export default class GameScreen extends React.Component {
   render() {
     const webviewContent = require('./../webviewContent/index.html')
     return (
-      <View style={styles.fullscreen}>
+      <View style={styles.fullscreen}
+       {...this.gestureResponder}>
         <WebView
           onLoad={this.onWebViewLoad}
           ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper

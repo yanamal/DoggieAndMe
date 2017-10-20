@@ -26,6 +26,7 @@
     "expo": "^21.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.4",
+    "react-native-gesture-responder": "^0.1.1",
     "react-navigation": "^1.0.0-beta.13"
   }
 }
