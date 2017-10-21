@@ -16,6 +16,7 @@ export default class GameSelectScreen extends React.Component {
     this.state = { 
       testPrograms: {
         screentap: 'click -> feed()',
+        screentap2: 'ontap -> feed()',
         turtletap: `
         st()
         setSize(20)

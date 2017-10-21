@@ -3,6 +3,7 @@ package com.doggieandme;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnimmersive.RNImmersivePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import it.innove.BleManagerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNImmersivePackage(),
             new VectorIconsPackage(),
             new BleManagerPackage()
       );

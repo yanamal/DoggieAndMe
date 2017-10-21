@@ -11,6 +11,9 @@ import BleManager from 'react-native-ble-manager';
 
 import GlobalState from './../globalState';
 
+import { Immersive } from 'react-native-immersive'
+
+
 const serial_service_UUID = 'a495ff10-c5b1-4b44-b512-1370f02d74de'; // UUID of the serial service on a LightBlue Bean device
 const scratch_service_UUID = 'a495ff20-c5b1-4b44-b512-1370f02d74de';
 const serial_UUID = 'a495ff11-c5b1-4b44-b512-1370f02d74de';
@@ -47,8 +50,15 @@ export default class GameScreen extends React.Component {
       moveThreshold: 2,
       debug: false
     });
+    Immersive.on(); // TODO: only do this on android (look up in ble example)
+    // TODO: also, make sure that I don't need to handle interruptions like modals.
+    // TODO: change/set width and height AFTER immersive is on.
   }
 
+  componentWillUnmount() {
+    Immersive.off();
+  }
+    
   // postMessage setup
 
   onWebViewMessage = (event) => {
