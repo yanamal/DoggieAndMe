@@ -215,8 +215,12 @@
 
       // ~~~ Helper functions (API) ~~~
 
-      ontap = function (fn) {
+      tap = function (fn) {
         $(window).on('touchstart', fn);
+      }
+
+      $.fn.tap = function (fn) {
+        this.on('touchstart', fn);
       }
 
       // set size of a turtle - works with the default turtle and (hopefully) with any jquery object.

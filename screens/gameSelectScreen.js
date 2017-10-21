@@ -16,11 +16,18 @@ export default class GameSelectScreen extends React.Component {
     this.state = { 
       testPrograms: {
         screentap: 'click -> feed()',
-        screentap2: 'ontap -> feed()',
+        screentap2: 'tap -> feed()',
         turtletap: `
         st()
         setSize(20)
         turtle.click -> 
+          feed()
+          moveto random position
+        `,
+        turtletap2: `
+        st()
+        setSize(20)
+        turtle.tap -> 
           feed()
           moveto random position
         `,
