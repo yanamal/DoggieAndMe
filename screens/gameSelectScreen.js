@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { View, Button, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
+import { Button } from 'react-native-elements'
+
 
 // TODO: style that makes buttons distinct?.. maybe just padding?..
 export default class GameSelectScreen extends React.Component {
@@ -49,6 +51,7 @@ export default class GameSelectScreen extends React.Component {
     return <View>
       {Object.keys(this.state.testPrograms).map((gameName) => {
         return <Button
+          raised
           key={'gameButton.'+gameName}
           title={gameName}
           onPress={() => navigate('Game', { code: this.state.testPrograms[gameName] })}

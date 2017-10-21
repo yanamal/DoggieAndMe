@@ -7,6 +7,14 @@ import { styles } from './../styles';
 
 import { createResponder } from 'react-native-gesture-responder';
 
+import BleManager from 'react-native-ble-manager';
+
+import GlobalState from './../globalState';
+
+const serial_service_UUID = 'a495ff10-c5b1-4b44-b512-1370f02d74de'; // UUID of the serial service on a LightBlue Bean device
+const scratch_service_UUID = 'a495ff20-c5b1-4b44-b512-1370f02d74de';
+const serial_UUID = 'a495ff11-c5b1-4b44-b512-1370f02d74de';
+const scratch_UUID ='a495ff25-c5b1-4b44-b512-1370f02d74de';
 
 export default class GameScreen extends React.Component {
   static navigationOptions = {
@@ -74,7 +82,7 @@ export default class GameScreen extends React.Component {
     const webviewContent = require('./../webviewContent/index.html')
     return (
       <View style={styles.fullscreen}
-       {...this.gestureResponder}/*TODO: this makes webview touches unreliable on android.*/>
+       /*{...this.gestureResponder}/*TODO: this makes webview touches unreliable on android.*/>
         <WebView
           onLoad={this.onWebViewLoad}
           ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper
@@ -90,8 +98,16 @@ export default class GameScreen extends React.Component {
   // function (optionally) takes in the 'payload' field passed along in the webview message.
   apiFunctions = {
     feed: () => {
-      // TODO.
       console.log('feed');
+      console.log(GlobalState.connectedBles)
+      for(id in GlobalState.connectedBles) {
+        console.log('id');        
+        // [1, 0, 0, 0] reads as 1 by Bean's readScratchNumber()
+        // TODO: also/alternatively write to serial?..
+        BleManager.write(id, GlobalState.beanConsts.scratch_service_UUID, GlobalState.beanConsts.scratch_UUID, [1, 0, 0, 0]).then((out) => {
+          console.log('wrote!');
+        })
+      }
     },
 
     vibrate: () => {

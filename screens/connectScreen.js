@@ -1,19 +1,21 @@
 // @flow
 
 import React from 'react';
-import { View, Button, 
+import { View, 
   AsyncStorage,
   NativeEventEmitter, NativeModules } from 'react-native';
 
+import { Button } from 'react-native-elements'
+  
 import BleManager from 'react-native-ble-manager';
+
+import GlobalState from './../globalState';
 
 const BleManagerModule = NativeModules.BleManager;  
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
   
-const serial_service_UUID = 'a495ff10-c5b1-4b44-b512-1370f02d74de'; // UUID of the serial service on a LightBlue Bean device
-const scratch_service_UUID = 'a495ff20-c5b1-4b44-b512-1370f02d74de';
-const serial_UUID = 'a495ff11-c5b1-4b44-b512-1370f02d74de';
-const scratch_UUID ='a495ff25-c5b1-4b44-b512-1370f02d74de'
+// TODO: disconnect; reflect connection state in interface.
+
 
 export default class ConnectScreen extends React.Component {
   static navigationOptions = {
@@ -32,21 +34,11 @@ export default class ConnectScreen extends React.Component {
     BleManager.stopScan().then( () =>{
       BleManager.connect(id).then(() => {
         BleManager.retrieveServices(id).then((peripheralInfo) => { // somehow I feel like this is a perverse use of promises. oh well.
-          console.log(peripheralInfo);
-          setTimeout(() => {
-            // [1, 0, 0, 0] reads as 1 by Bean's readScratchNumber()
-            BleManager.write(id, scratch_service_UUID, scratch_UUID, [1, 0, 0, 0]).then((out) => {
-              console.log('wrote!');
-            })  
-            .catch((error) => {
-              // Failure code
-              console.log(error);
-            });
-          }, 500);
+          GlobalState.connectedBles[id] = true;
         }); 
       })   
       .catch((error) => {
-        // Failure code
+        // Connection failure
         console.log(error);
       });
     });
@@ -59,13 +51,14 @@ export default class ConnectScreen extends React.Component {
       if(!(data.id in this.state.beans)) {
         s = this.state;
         s.beans[data.id] = data;
-        this.setState(s); // TODO: why does it complain about not being mounted?.. probably remove listener?..
+        this.setState(s); // TODO: why does it complain about not being mounted?.. probably remove listener on navigate back?..
         console.log(this.state.beans);
       }
     });
 
     BleManager.start({showAlert: false}).then(() => {
-      BleManager.scan([], 100).then((results) => {
+      // TODO: continuous scan and/or reflect whether scanning in the interface.
+      BleManager.scan([GlobalState.beanConsts.serial_service_UUID], 100).then((results) => {
         console.log('Scanning...');
       });
     });
@@ -75,6 +68,7 @@ export default class ConnectScreen extends React.Component {
     return <View>
       {Object.keys(this.state.beans).map((beanID) => {
         return <Button
+          raised
           key={'beanListing.'+beanID}
           title={ this.state.beans[beanID].name || 'mystery device'}
           onPress={() => this.connectBean(beanID)}
