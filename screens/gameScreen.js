@@ -12,6 +12,7 @@ import BleManager from 'react-native-ble-manager';
 import GlobalState from './../globalState';
 
 import { Immersive } from 'react-native-immersive'
+import Orientation from 'react-native-orientation';
 
 
 const serial_service_UUID = 'a495ff10-c5b1-4b44-b512-1370f02d74de'; // UUID of the serial service on a LightBlue Bean device
@@ -26,6 +27,11 @@ export default class GameScreen extends React.Component {
 
   // set up gesture detection (mostly boilerplate, except the pinch logic:
   componentWillMount() {
+    Orientation.lockToLandscape();
+    Immersive.on(); // TODO: only do this on android (look up in ble example)
+    // TODO: also, make sure that I don't need to handle interruptions like modals.
+    // TODO: change/set width and height AFTER immersive is on.
+
     const { navigate } = this.props.navigation;    
     this.gestureResponder = createResponder({
       onStartShouldSetResponder: (evt, gestureState) => true,
@@ -50,13 +56,11 @@ export default class GameScreen extends React.Component {
       moveThreshold: 2,
       debug: false
     });
-    Immersive.on(); // TODO: only do this on android (look up in ble example)
-    // TODO: also, make sure that I don't need to handle interruptions like modals.
-    // TODO: change/set width and height AFTER immersive is on.
   }
 
   componentWillUnmount() {
     Immersive.off();
+    Orientation.unlockAllOrientations();
   }
     
   // postMessage setup
