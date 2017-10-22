@@ -127,7 +127,7 @@
         roundSetupFunc = callback;
       }
 
-      //  ~~ Difficulty ~~ (TODO: make sure classes work as intended in webview)
+      //  ~~ Difficulty ~~ (TODO: make sure classes work as intended in all webviews)
 
       var baselineEasyTime = 4000; // baseline for what's always considered "easy" - if the dog completes rounds in < 4 sec.
 
@@ -144,8 +144,6 @@
           this.totalBaseline = 0;
         }
 
-        // pick a difficulty. This should most commonly be called as part of the set-up for a new round.
-        // TODO: one 'learning challenge' could be to rename the instance to something really silly.
 
         // helper function to set difficulty for this round, and communicate it to the parent app.
         // TODO: private?
@@ -155,6 +153,8 @@
           return diff;
         }
 
+        // pick a difficulty. This should most commonly be called as part of the set-up for a new round.
+        // TODO: one 'learning challenge' could be to rename the instance to something really silly.
         pick() {
           // if already decided on a difficulty for this round, keep returning the same one.
           if(round in this.roundDifficulties) {
