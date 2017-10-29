@@ -82,6 +82,9 @@
         // TODO: queue up if can't post right now?
       }
 
+      // ~~~~ doglib ~~~~
+
+
       // ~~~ Logic for setting rounds and difficulty ~~~
       var justStarted = true;
       var round;
@@ -224,8 +227,47 @@
       }
 
       // set size of a turtle - works with the default turtle and (hopefully) with any jquery object.
+      $.fn.setSize = function(newSize) {
+        this.animate({turtleScale: newSize}); // TODO: use speed?..
+      };
+
       setSize = function(newSize) {
-        this.animate({turtleScale: newSize});
+        turtle.setSize(newSize);
+      };
+
+
+      // object which tracks the location of the last tap. (TODO: test in app)
+      
+      lasttap = $("<div>").css({
+          display: 'inline-block',
+          verticalAlign: 'top',
+          textAlign: 'center',
+          height: '1.2em',
+          width: '1.2em',
+          maxWidth: '1.2em',
+          overflow: 'hidden' }).appendTo($("body"));
+          
+      //lasttap = new Turtle();
+      lasttap.speed(Infinity);
+
+      tap( (e)=>{
+        // TODO: this seems to be affected when scrolling (e.g. when lots of writes happen)
+        lasttap.moveto(e.originalEvent);
+      })
+
+      // helpful variables for screen width/height
+      totalWidth = document.body ? $(document).width() : document.width;
+      totalHeight = document.body ? $(document).height() : document.height;
+
+      // shuffle an array in-place
+      function shuffle(a) {
+          var j, x, i;
+          for (i = a.length - 1; i > 0; i--) {
+              j = Math.floor(Math.random() * (i + 1));
+              x = a[i];
+              a[i] = a[j];
+              a[j] = x;
+          }
       }
 
       // end round - the implication is that it ended without success/feeding.

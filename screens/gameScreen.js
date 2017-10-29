@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, WebView, Vibration } from 'react-native';
+import { View, WebView, Vibration, Platform, Dimensions } from 'react-native';
 
 import { styles } from './../styles';
 
@@ -25,14 +25,26 @@ export default class GameScreen extends React.Component {
     header: null
   };
 
-  // set up gesture detection (mostly boilerplate, except the pinch logic:
   componentWillMount() {
     Orientation.lockToLandscape();
-    Immersive.on(); // TODO: only do this on android (look up in ble example)
-    // TODO: also, make sure that I don't need to handle interruptions like modals.
-    // TODO: change/set width and height AFTER immersive is on.
+    if(Platform.OS === 'android') {
+      Immersive.on();
+      // TODO: also, make sure that I don't need to handle interruptions like modals.
+    }
+
+    // Force width/height dynamically; assume width is biggest, since we are locking to landscape. 
+    // TODO: add 48 pixels for android
+    // TODO: figure out how to do this more "properly"?
+    this.fullscreenStyle = {
+      width: Math.max(Dimensions.get("window").width, Dimensions.get("window").height),
+      height: Math.min(Dimensions.get("window").width, Dimensions.get("window").height),
+      backgroundColor: 'powderblue'
+    }
 
     const { navigate } = this.props.navigation;    
+
+    // Set up gesture responder for quit-game-on-pinch navigation(mostly boilerplate, except the pinch logic):
+    // TODO: can I turn off the shrinking on pinch?.. seems to come with the gesture responder.
     this.gestureResponder = createResponder({
       onStartShouldSetResponder: (evt, gestureState) => true,
       onStartShouldSetResponderCapture: (evt, gestureState) => true,
@@ -43,8 +55,9 @@ export default class GameScreen extends React.Component {
       },
       onResponderTerminationRequest: (evt, gestureState) => true,
       onResponderRelease: (evt, gestureState) => {
-        // custom gesture response - if pinched (within some constraints), navigate back
+        // custom gesture response - if pinched, navigate back
         // TODO: pinch threshold? but then need to track starting pinch state.
+        // TODO: This mostly seems to react to "horizontal" pinch, not vertical. debug?..
         if (gestureState.pinch && gestureState.previousPinch && gestureState.pinch < gestureState.previousPinch ) {
           this.props.navigation.goBack();
         }
@@ -59,7 +72,9 @@ export default class GameScreen extends React.Component {
   }
 
   componentWillUnmount() {
-    Immersive.off();
+    if(Platform.OS === 'android') {
+      Immersive.off();
+    }
     Orientation.unlockAllOrientations();
   }
     
@@ -94,9 +109,13 @@ export default class GameScreen extends React.Component {
   // render the webview
   render() {
     const webviewContent = require('./../webviewContent/index.html')
+
+    // Only do the gestureResponder on ios - seems to be more trouble than it's worth on Android (interferes with touch detection, possibly slow)
+    const gestureConfig = Platform.OS === 'ios' ? this.gestureResponder : {}
+
     return (
-      <View style={styles.fullscreen}
-       /*{...this.gestureResponder}/*TODO: this makes webview touches unreliable on android.*/>
+      <View style={this.fullscreenStyle}
+       {...gestureConfig}/*TODO: this makes webview touches unreliable on android.*/>
         <WebView
           onLoad={this.onWebViewLoad}
           ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper

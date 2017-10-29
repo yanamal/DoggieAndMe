@@ -11,16 +11,6 @@ export default class HomeScreen extends React.Component {
     title: 'Doggie And Me'
   };
   render() {
-    // Test - set a 'custom' game in asyncStorage
-    AsyncStorage.setItem("customGame", `
-    st()
-    setSize(20)
-    turtle.click -> 
-      feed()
-    onRoundStart ->
-      moveto random position
-    `);
-
     const { navigate } = this.props.navigation;
     return <View>
       <Button
@@ -32,6 +22,11 @@ export default class HomeScreen extends React.Component {
         raised
         title='Start a doggie game'
         onPress={() => navigate('GameSelect')}
+      />
+      <Button
+        raised
+        title='Add a custom game'
+        onPress={() => navigate('GameAdd')}
       />
     </View>;
   }
