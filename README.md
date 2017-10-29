@@ -22,6 +22,7 @@ Doggie and Me is a mobile app which interacts with a PetTutor or other LightBlue
   - Smarter auto-difficulty (reason about duration, 'wrong' actions, relaxing criteria during the round, etc.)
 - Global settings such as "always vibrate/play sound on feed"
 - Persistent profiles (for both humans and dogs - supporting multiple dogs per device)
+  - Remembering past difficulty settings (right now difficulty starts over every time you start a game)
 - Somehow work with peripherals (e.g. smart clicker)
 - Lots of other things!!
 
