@@ -17,7 +17,6 @@ export default class HomeScreen extends React.Component {
 
   // load default games into asyncStorage if no games are registered.
   componentWillMount () { 
-    AsyncStorage.clear();// TODO: remove
     AsyncStorage.getItem('gameIDs').then((ids)=>{
       if(!ids) {
         let gameNum = 0;

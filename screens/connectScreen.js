@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, 
+import { View, Text,
   AsyncStorage,
   NativeEventEmitter, NativeModules } from 'react-native';
 
@@ -20,8 +20,29 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 
 export default class ConnectScreen extends React.Component {
+  /*
   static navigationOptions = {
-    title: 'Connect to a dispenser'
+    title: 'Connect to a dispenser',
+  };
+  */
+
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    let headerRight = (
+      <Button
+        title=''
+        icon={{name: 'refresh'}}
+        buttonStyle={styles.defaultButton}
+        onPress={params.startScan ? params.startScan : () => null}
+      />
+    );
+    if (params.connecting) {
+      headerRight = <Text>Connecting...</Text>;
+    }
+    else if (params.scanning) {
+      headerRight = <Text>Scanning...</Text>;
+    }
+    return { headerRight:headerRight, title: 'Connect to a dispenser' };
   };
 
   constructor(props){
@@ -31,12 +52,18 @@ export default class ConnectScreen extends React.Component {
     }
   }
 
-
   connectBean = (id) => {
-    BleManager.stopScan().then( () =>{
+    BleManager.stopScan().then( () => { // TODO: why doesn't this trigger the state change?..
+      this.props.navigation.setParams({connecting: true});
       BleManager.connect(id).then(() => {
         BleManager.retrieveServices(id).then((peripheralInfo) => { // somehow I feel like this is a perverse use of promises. oh well.
-          GlobalState.connectedBles[id] = true;
+          this.props.navigation.setParams({connecting: false});
+          GlobalState.connectedBles[id] = peripheralInfo;
+          // remove from 'disconnected' list. TODO: keep in list, but mark/merge?..
+          // the issue is that state is lost on navigate back, so have to be flexible about whether they are present in the state.
+          let beans = this.state.beans;
+          delete beans[id];
+          this.setState({beans:beans});
         }); 
       })   
       .catch((error) => {
@@ -46,28 +73,52 @@ export default class ConnectScreen extends React.Component {
     });
   }
 
-  componentDidMount() {
-    
+  startScan = () => {
+    this.props.navigation.setParams({scanning: true});
+    BleManager.scan([GlobalState.beanConsts.serial_service_UUID], 20).then((results) => {
+      console.log('Scanning...');
+    });
+  }
+
+  componentDidMount() { 
+    this.props.navigation.setParams({ startScan: this.startScan });
+
     bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', (data) => {
       console.log(data);
       if(!(data.id in this.state.beans)) {
-        s = this.state;
-        s.beans[data.id] = data;
-        this.setState(s); // TODO: why does it complain about not being mounted?.. probably remove listener on navigate back?..
-        console.log(this.state.beans);
+        let beans = this.state.beans;
+        beans[data.id] = data;
+        this.setState({beans:beans});
       }
     });
 
-    BleManager.start({showAlert: false}).then(() => {
-      // TODO: continuous scan and/or reflect whether scanning in the interface.
-      BleManager.scan([GlobalState.beanConsts.serial_service_UUID], 100).then((results) => {
-        console.log('Scanning...');
-      });
+    bleManagerEmitter.addListener('BleManagerStopScan', () => {
+      // TODO: this stops working sometimes?..
+      this.props.navigation.setParams({scanning: false});
     });
+
+    BleManager.start({showAlert: false}).then(() => {
+      this.startScan();
+    });
+  }
+
+  componentWillUnmount() {
+    bleManagerEmitter.removeAllListeners('BleManagerDiscoverPeripheral');
+    bleManagerEmitter.removeAllListeners('BleManagerStopScan');
   }
 
   render() {
     return <View>
+      {Object.keys(GlobalState.connectedBles).map((beanID) => {
+        return <Button
+          raised
+          buttonStyle={[styles.defaultButton, {backgroundColor:'#00c853'}]}
+          icon={{name: 'check-circle'}}
+          key={'beanListing.'+beanID}
+          title={ GlobalState.connectedBles[beanID].name || 'mystery device'}
+          onPress={() => this.connectBean(beanID)}
+        />
+      })}
       {Object.keys(this.state.beans).map((beanID) => {
         return <Button
           raised
