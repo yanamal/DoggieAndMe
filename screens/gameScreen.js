@@ -3,8 +3,6 @@
 import React from 'react';
 import { View, WebView, Vibration, Platform, Dimensions } from 'react-native';
 
-import { styles } from './../styles';
-
 import { createResponder } from 'react-native-gesture-responder';
 
 import BleManager from 'react-native-ble-manager';
@@ -35,9 +33,14 @@ export default class GameScreen extends React.Component {
     // Force width/height dynamically; assume width is biggest, since we are locking to landscape. 
     // TODO: add 48 pixels for android
     // TODO: figure out how to do this more "properly"?
+    let width = Math.max(Dimensions.get("window").width, Dimensions.get("window").height);
+    let height = Math.min(Dimensions.get("window").width, Dimensions.get("window").height);
+    if(Platform.OS === 'android') {
+      height+=48; // Dimensions do not account for the absense of the navigation bar in immersive mode.
+    }
     this.fullscreenStyle = {
-      width: Math.max(Dimensions.get("window").width, Dimensions.get("window").height),
-      height: Math.min(Dimensions.get("window").width, Dimensions.get("window").height),
+      width: width,
+      height: height,
       backgroundColor: 'powderblue'
     }
 

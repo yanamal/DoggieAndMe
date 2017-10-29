@@ -19,6 +19,7 @@ const DogApp = StackNavigator({
 
 export default class App extends React.Component {
   render() {
+    console.ignoredYellowBox = ['Remote debugger'];
     return <DogApp/>;
   }
 }

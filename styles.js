@@ -1,9 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({
-  fullscreen: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-    backgroundColor: 'powderblue'
-  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  }
 });
