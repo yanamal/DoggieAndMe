@@ -6,6 +6,8 @@ import { View,
   NativeEventEmitter, NativeModules } from 'react-native';
 
 import { Button } from 'react-native-elements'
+
+import { styles } from './../styles';
   
 import BleManager from 'react-native-ble-manager';
 
@@ -69,6 +71,7 @@ export default class ConnectScreen extends React.Component {
       {Object.keys(this.state.beans).map((beanID) => {
         return <Button
           raised
+          buttonStyle={styles.defaultButton}
           key={'beanListing.'+beanID}
           title={ this.state.beans[beanID].name || 'mystery device'}
           onPress={() => this.connectBean(beanID)}

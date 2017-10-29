@@ -6,6 +6,9 @@ import { View, AsyncStorage} from 'react-native';
 import { Button } from 'react-native-elements'
 
 import GlobalState from './../globalState';
+
+import { styles } from './../styles';
+
   
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -41,11 +44,13 @@ export default class HomeScreen extends React.Component {
     return <View>
       <Button
         raised
+        buttonStyle={styles.defaultButton}
         title='Connect a treat dispenser'
         onPress={() => navigate('Connect')}
       />
       <Button
         raised
+        buttonStyle={styles.defaultButton}
         title='Start a doggie game'
         onPress={() => navigate('GameSelect')}
       />

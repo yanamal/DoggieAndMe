@@ -12,7 +12,7 @@ import { styles } from './../styles';
 
 export default class GameSelectScreen extends React.Component {
   static navigationOptions = {
-    title: 'Scan the QR code of your deployed game!'
+    title: 'Scan the QR code of a deployed game on doggieand.me!'
   };
   constructor(props) {
     super(props);
@@ -80,6 +80,7 @@ export default class GameSelectScreen extends React.Component {
           <View style={{flexDirection: 'row'}}>
             <Button 
               raised
+              buttonStyle={styles.defaultButton}
               title='Cancel'
               onPress={() => {
                 this.setState({modalVisible:false});
@@ -88,6 +89,7 @@ export default class GameSelectScreen extends React.Component {
             </Button>
             <Button 
               raised
+              buttonStyle={styles.defaultButton}
               title='Save'
               onPress={() => {
                 this.setState({modalVisible:false});

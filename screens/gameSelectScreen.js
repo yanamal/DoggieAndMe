@@ -4,6 +4,8 @@ import React from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements'
 
+import { styles } from './../styles';
+
 
 // TODO: style that makes buttons distinct?.. maybe just padding?..
 export default class GameSelectScreen extends React.Component {
@@ -40,6 +42,7 @@ export default class GameSelectScreen extends React.Component {
       {Object.keys(this.state.games).map((gameName) => {
         return <Button
           raised
+          buttonStyle={styles.defaultButton}
           key={'gameButton.'+gameName}
           title={gameName}
           onPress={() => navigate('Game', { code: this.state.games[gameName] })}
@@ -48,6 +51,10 @@ export default class GameSelectScreen extends React.Component {
 
       <Button
         raised
+        large
+        buttonStyle={[styles.defaultButton, {backgroundColor: '#ffc400'}]}
+        //backgroundColor={'#ffc400'}
+        icon={{name: 'add-circle-outline'}}
         title='Add a custom game'
         onPress={() => this.props.navigation.navigate('GameAdd')}
       />
