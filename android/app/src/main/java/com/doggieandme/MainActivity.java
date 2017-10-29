@@ -1,4 +1,4 @@
-package com.doggieandme;
+package com.yanamal.doggieandme;
 
 import com.facebook.react.ReactActivity;
 
