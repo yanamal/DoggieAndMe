@@ -16,8 +16,12 @@ Doggie and Me is a mobile app which interacts with a PetTutor or other LightBlue
 
 # Future work:
 - Graph dog performance (speed, difficulty, etc.)
-- (doglib) Sound detection: feed (or don't feed) when the dog barks
-- (doglib) react to accelerometer and other data (e.g. when the tablet/phone is moved)
+- More doglib features:
+  - Sound detection: feed (or don't feed) when the dog barks
+  - React to accelerometer and other data (e.g. when the tablet/phone is moved)
+  - Smarter auto-difficulty (reason about duration, 'wrong' actions, relaxing criteria during the round, etc.)
+- Global settings such as "always vibrate/play sound on feed"
+- Persistent profiles (for both humans and dogs - supporting multiple dogs per device)
 - Somehow work with peripherals (e.g. smart clicker)
 - Lots of other things!!
 
