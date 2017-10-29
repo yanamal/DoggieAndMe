@@ -1,6 +1,6 @@
 Doggie and Me is a mobile app which interacts with a PetTutor or other LightBlue Bean device, and allows you to use and/or write custom treat-dispensing apps!
 
-#Current state - Basic functionality:
+# Current state - Basic functionality:
 - Connect a PetTutor (or any LightBlue Bean device)
   - Can connect several at the same time to trigger all of them each time the right thing happens in the game
 - Start an existing game, which will trigger a feed on each connected feeder whenever the "right thing" happens in the game.
@@ -14,7 +14,7 @@ Doggie and Me is a mobile app which interacts with a PetTutor or other LightBlue
   - Intended to work with the Doggie And Me gym, which will soon be at http://doggieand.me (but is not deployed yet)
     - the github project for the gym is https://github.com/yanamal/doggym
 
-#Future work:
+# Future work:
 - Graph dog performance (speed, difficulty, etc.)
 - (doglib) Sound detection: feed (or don't feed) when the dog barks
 - (doglib) react to accelerometer and other data (e.g. when the tablet/phone is moved)
