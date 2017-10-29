@@ -1,31 +1,27 @@
-Doggie and Me is (will be) a mobile app which interacts with a PetTutor or other LightBlue Bean device, and allows you to use and/or write custom treat-dispensing apps!
+Doggie and Me is a mobile app which interacts with a PetTutor or other LightBlue Bean device, and allows you to use and/or write custom treat-dispensing apps!
 
-Current state - Skeleton functionality:
-- The app has a built-in webview, which in turn has the jquery-turtle library and CoffeeScript enabled.
-- it is possible to write custom short programs (by editing index.html) in CoffeeScript (or JavaScript) that use jquery-turtle functionality. Some example programs (in CoffeeScript) are at the top of gameScreen.js
-  - Immediately-useful jquery-turtle functions include:
-    - ```click(callback)``` - register a callback for click events
-    - ```st()``` - show the turtle (I hide it by default)
-  - There is also a small but functional custom DoggieAndMe API: 
-    - ```feed()```<sup>1</sup>
-    - ```vibrate()```
-    - ```setSize(newsise)``` - set the turtle's size (in multiples of canonical turtle size). jquery-turtle has a built-in ```grow``` function, but it is relative to current size, and thus not suitable for the current difficulty implementation.
-    - ```onRoundStart(callback)``` - set callback for what to do when a round of the game starts (draw things, move turtle, etc.)
-    - ```endRound()``` - end current round of the game without feeding (note: ```feed()``` also implicitly ends the round)
-    - ```var x = new DifficultyPicker(easiest, hardest)``` - instantiate a new Difficulty picker: it uses light ML to adjust the particular numerical value based on how the dog did in the previous round: it starts with the ```easiest``` value, gets a baseline for how long it takes the dog to complete each round, then adjust the number between ```easiest``` and ```hardest``` to try and keep the round duration near the baseline continuously.
-      - use ```x.pick()``` to actually pick a number, typically within the ```onRoundStart``` callback. Note: this only picks a new number once each round; subsequent calls within the same round return the same number.
-- The webview is able to communicate with the app itself, and send and request information.
-- the app cannot yet connect to or trigger a feeder - I will have to eject it from Create React Native and start using 'real' React Native before it can do that.
-- Other things that require 'real' React Native:
-  - full-screen mode (on android, at least) so that dogs can't accidentally back out of game
-  - QR reader (to easily load new programs into memory, when that is useful)
-  - (probably) using other device sensors, e.g. sound, accelerometer.
-  - locking the device orientation so that it doesn't change during the game
-  - drawing graphs/SVG graphics (e.g. graph of difficulty over time in a game session)
+Current state - Basic functionality:
+- Connect a PetTutor (or any LightBlue Bean device)
+  - Can connect several at the same time to trigger all of them each time the right thing happens in the game
+- Start an existing game, which will trigger a feed on each connected feeder whenever the "right thing" happens in the game.
+  - Built-in games:
+    - screentap: feed when anywhere on the screen is tapped
+    - turtletap: feed when the turtle is tapped (turtle moves around and changes size, depending on difficulty)
+    - bluetap: feed when the blue square is tapped (squares move around and the blue square changes size, depending on difficulty)
+- Load a new game from the internet
+  - scans a QR code, attempts to load a CoffeeScript game from the URL in the QR code.
+    - assumes that the CoffeeScript game is using jquery-turtle plus some dog-specific functionality.
+  - Intended to work with the Doggie And Me gym, which will soon be at http://doggieand.me (but is not deployed yet)
+    - the github project for the gym is https://github.com/yanamal/doggym
+
+- Future work:
+  - Graph dog performance (speed, difficulty, etc.)
+  - (doglib) Sound detection: feed (or don't feed) when the dog barks
+  - (doglib) react to accelerometer and other data (e.g. when the tablet/phone is moved)
+  - Somehow work with peripherals (e.g. smart clicker)
 
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 The most recent version of the Create React Native App guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
----
-<sup>1</sup> Currently does not actually do much, except internal bookkeeping.
+It uses CoffeeScript, jquery, and jquery-turtle.
