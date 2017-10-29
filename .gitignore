@@ -7,3 +7,7 @@ ios/build/*
 android/app/build/*
 android/.gradle/*
 android/build/*
+android/app/*.keystore
+
+*/.DS_Store
+.DS_Store
