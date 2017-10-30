@@ -48,7 +48,7 @@ export default class ConnectScreen extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      beans: new Map()
+      beans: {}
     }
   }
 
