@@ -121,8 +121,8 @@ export default class GameScreen extends React.Component {
        {...gestureConfig}/*TODO: this makes webview touches unreliable on android.*/>
         <WebView
           onLoad={this.onWebViewLoad}
-          ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper
-          source={webviewContent}
+          ref={webview => {this.webViewRef = webview;}} // stores a reference to the webview object in the GameScreen wrapper          
+          source={Platform.OS === 'ios' ? require('./../webviewContent/index.html') : {uri: "file:///android_asset/index.html"}}
           onMessage={this.onWebViewMessage}
         />
       </View>
