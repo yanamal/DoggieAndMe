@@ -247,12 +247,11 @@
           maxWidth: '1.2em',
           overflow: 'hidden' }).appendTo($("body"));
           
-      //lasttap = new Turtle();
       lasttap.speed(Infinity);
 
       tap( (e)=>{
         // TODO: this seems to be affected when scrolling (e.g. when lots of writes happen)
-        lasttap.moveto(e.originalEvent);
+        lasttap.moveto(e.originalEvent.touches[0]); // TODO: does this have to be different on Android?..
       })
 
       // helpful variables for screen width/height
