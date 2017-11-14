@@ -1340,7 +1340,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.yanamal.DoggieAndMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yanamal.DoggieAndMe;
 				PRODUCT_NAME = DoggieAndMe;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1367,7 +1367,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.yanamal.DoggieAndMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yanamal.DoggieAndMe;
 				PRODUCT_NAME = DoggieAndMe;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
