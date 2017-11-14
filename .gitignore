@@ -11,3 +11,7 @@ android/app/*.keystore
 
 */.DS_Store
 .DS_Store
+
+*.xcuserstate
+*.xcworkspacedata
+ios/DoggieAndMe.xcodeproj/xcuserdata
