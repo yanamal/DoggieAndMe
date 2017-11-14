@@ -27,7 +27,14 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
-		<dict/>
+		<dict>
+			<!-- Remove the contents of this outer dict to deploy to iOS. TODO: automatically do this somehow?-->
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Uses bluetooth to connect to a PetTutor feeder (or other LightBlue Bean device) to dispense treats.</string>
