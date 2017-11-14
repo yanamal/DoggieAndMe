@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.01</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.01</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -29,8 +29,10 @@
 		<key>NSExceptionDomains</key>
 		<dict/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Uses bluetooth to connect to a PetTutor feeder (or other LightBlue Bean device) to dispense treats.</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>Uses the camera to scan QR codes when you load a new game. Does not store any data from the camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
